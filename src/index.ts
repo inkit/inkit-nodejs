@@ -35,13 +35,15 @@ const buildRequest = (path: string, method: MethodsType, data: any) => {
   let requestData: { [key: string]: any } = { data:  convertCaseKebabCamel(data) };
 
   if (["GET", "DELETE"].includes(method)) {
-    requestData = Object.entries(requestData).reduce((acc, [key, value]) => {
-      const keyName = key.includes("data_") ? key.replace("_", "-") : key;
-      return {
-        ...acc,
-        [keyName]: value,
-      };
-    }, {});
+    requestData  = {
+      params: Object.entries(requestData.data).reduce((acc, [key, value]) => {
+        const keyName = key.includes("data_") ? key.replace("_", "-") : key;
+        return {
+          ...acc,
+          [keyName]: value,
+        };
+      }, {})
+    };
   }
   if (RegExp("docx|pdf|html").test(path)) {
     requestData = {
@@ -78,10 +80,12 @@ const setMethods = (type: InkitEntityKeys) => {
 
         if (path.includes("{id}")) {
           path = route.path.replace("{id}", data.entityId);
-          delete reqData.data.entityId
+          if(reqData?.data?.entityId) {
+            delete reqData.data.entityId
+          }
         }
 
-        if(!Object.values(reqData.data).length) {
+        if(reqData.data && !Object.values(reqData.data).length) {
           delete reqData.data
         }
 
