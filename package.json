@@ -14,10 +14,10 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/inkitio/npm"
+    "url": "https://github.com/inkit/inkit-nodejs"
   },
   "files": ["lib/**/*"],
-  "author": "",
+  "author": "engineering@inkit.com",
   "license": "ISC",
   "devDependencies": {
     "@types/lodash": "^4.14.182",
