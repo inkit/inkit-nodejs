@@ -49,7 +49,10 @@ const buildRequest = (path: string, method: MethodsType, data: any) => {
     requestData = {
       "axios-retry": {
         retries: 3,
-        retryDelay: () => 1000,
+        retryDelay: () => 10000,
+        retryCondition: (...props: any) => {
+          return props[0]?.response?.status === 404
+        },
       },
       data,
     };
