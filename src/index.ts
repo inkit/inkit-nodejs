@@ -1,23 +1,32 @@
-import axios from "axios";
-import axiosRetry from "axios-retry";
-
+import config from "./data/config.json";
+import routingConfig from "./data/routing-config-map.json";
 import {
   b64EncodeUnicode,
   capitalizeFirstLetter,
   convertCaseKebabCamel,
 } from "./utils";
-import routingConfig from "./data/routing-config-map.json";
-import config from "./data/config.json";
+import axios from "axios";
+import axiosRetry from "axios-retry";
 
 const client = axios.create();
 
-export type InkitEntityKeys = keyof typeof InkitEntity;
-export type ConfigKeys = "render";
+export type ConfigKeys =
+  | "render"
+  | "template"
+  | "folder"
+  | "document"
+  | "batch";
 export type MethodsType = "GET" | "PATCH" | "POST" | "DELETE";
+
+export type InkitEntityKeys = (typeof EntityNameList)[number];
+
 export type InkitType = {
   token: string;
   set apiToken(token: string);
-  Render?: any;
+} & {
+  [k in InkitEntityKeys]: {
+    list: (params?: any) => Promise<any>;
+  } & { [key: string]: (params?: any) => Promise<any> };
 };
 
 axiosRetry(client, {
@@ -25,24 +34,42 @@ axiosRetry(client, {
   retryDelay: () => 0,
 });
 
-const InkitEntity = {
-  Render: function Render(this: { apiToken: string }, token: string): any {
-    this.apiToken = token;
-  },
-};
+const EntityNameList = [
+  "Render",
+  "Template",
+  "Folder",
+  "Batch",
+  "Document",
+] as const;
 
-const buildRequest = (path: string, method: MethodsType, data: any) => {
-  let requestData: { [key: string]: any } = { data:  convertCaseKebabCamel(data) };
+type InkitEntityType = Record<
+  InkitEntityKeys,
+  (this: { apiToken: string }, token: string) => void
+>;
+
+const InkitEntity: InkitEntityType = {} as any;
+
+EntityNameList.forEach((name) => {
+  InkitEntity[name] = function (this: { apiToken: string }, token: string) {
+    this.apiToken = token;
+  };
+  setMethods(name);
+});
+
+const buildRequest = (path: string, method: MethodsType, data: any = {}) => {
+  let requestData: { [key: string]: any } = {
+    data: typeof data === "object" ? convertCaseKebabCamel(data) : {},
+  };
 
   if (["GET", "DELETE"].includes(method)) {
-    requestData  = {
+    requestData = {
       params: Object.entries(requestData.data).reduce((acc, [key, value]) => {
         const keyName = key.includes("data_") ? key.replace("_", "-") : key;
         return {
           ...acc,
           [keyName]: value,
         };
-      }, {})
+      }, {}),
     };
   }
   if (RegExp("docx|pdf|html").test(path)) {
@@ -51,7 +78,7 @@ const buildRequest = (path: string, method: MethodsType, data: any) => {
         retries: 3,
         retryDelay: () => 1000,
         retryCondition: (...props: any) => {
-          return props[0]?.response?.status === 404
+          return props[0]?.response?.status === 404;
         },
       },
       data,
@@ -69,7 +96,7 @@ const buildRequest = (path: string, method: MethodsType, data: any) => {
   return requestData;
 };
 
-const setMethods = (type: InkitEntityKeys) => {
+function setMethods(type: InkitEntityKeys) {
   const confKey = type.toLowerCase() as ConfigKeys;
 
   routingConfig[confKey].routes.forEach((route: any) => {
@@ -82,14 +109,17 @@ const setMethods = (type: InkitEntityKeys) => {
         const reqData = buildRequest(path, route.httpMethod, data);
 
         if (path.includes("{id}")) {
-          path = route.path.replace("{id}", data.entityId);
-          if(reqData?.data?.entityId) {
-            delete reqData.data.entityId
+          const id = data.entityId || data;
+
+          path = route.path.replace("{id}", id);
+
+          if (reqData?.data?.entityId) {
+            delete reqData.data.entityId;
           }
         }
 
-        if(reqData.data && !Object.values(reqData.data).length) {
-          delete reqData.data
+        if (reqData.data && !Object.values(reqData.data).length) {
+          delete reqData.data;
         }
 
         return await client({
@@ -98,7 +128,7 @@ const setMethods = (type: InkitEntityKeys) => {
           ...reqData,
           headers: {
             "X-Inkit-API-Token": this.apiToken,
-            'User-Agent': config.USER_AGENT,
+            "User-Agent": config.USER_AGENT,
           },
         });
       } catch (error) {
@@ -106,11 +136,9 @@ const setMethods = (type: InkitEntityKeys) => {
       }
     };
   });
-};
+}
 
-setMethods("Render");
-
-const Inkit: InkitType = {
+const Inkit = {
   token: "",
   set apiToken(token: string) {
     this.token = token;
@@ -121,6 +149,8 @@ const Inkit: InkitType = {
       this[entityName] = new (value as any)(token);
     });
   },
-};
+} as InkitType;
 
-export default Inkit;
+module.exports = {
+  Inkit,
+};

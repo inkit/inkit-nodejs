@@ -4,316 +4,93 @@
       {
         "path": "render",
         "httpMethod": "POST",
-        "sdkMethodName": "create",
-        "request": {
-          "folderId": {
-            "type": "string"
-          },
-          "templateId": {
-            "type": "string"
-          },
-          "html": {
-            "type": "string"
-          },
-          "htmlUrl": {
-            "type": "string"
-          },
-          "width": {
-            "type": "float"
-          },
-          "height": {
-            "type": "float"
-          },
-          "unit": {
-            "type": "string"
-          },
-          "description": {
-            "type": "string",
-            "optional": true
-          },
-          "metadata": {
-            "type": "object",
-            "optional": true
-          },
-          "mergeParameters": {
-            "type": "object",
-            "optional": true
-          },
-          "expireAt": {
-            "type": "string",
-            "optional": true
-          },
-          "expireAfterNViews": {
-            "type": "number",
-            "optional": true
-          },
-          "colorSpace": {
-            "type": "string",
-            "optional": true
-          },
-          "colorSpaceProfile": {
-            "type": "string",
-            "optional": true
-          },
-          "scale": {
-            "type": "float",
-            "optional": true
-          }
-        },
-        "response": {
-          "id": {
-            "type": "string"
-          },
-          "folder_id": {
-            "type":  ["string", null]
-          },
-          "name": {
-            "type":  ["string", null]
-          },
-          "description": {
-            "type":  ["string", null]
-          },
-          "status": {
-            "type": "string"
-          },
-          "pdf_url": {
-            "type": "string"
-          },
-          "html_url": {
-            "type": "string"
-          },
-          "width": {
-            "type": ["float", null]
-          },
-          "height": {
-            "type": ["float", null]
-          },
-          "unit": {
-            "type":  ["string", null]
-          },
-          "merge_parameters": {
-            "type":  ["array", null]
-          },
-          "metadata": {
-            "type":  ["array", null]
-          },
-          "expire_after_n_views":{
-            "type":  ["number", null]
-          },
-          "expire_at": {
-            "type":  ["string", null]
-          },
-          "updated_at": {
-            "type": "string"
-          },
-          "created_at": {
-            "type": "string"
-          },
-          "scale": {
-            "type": "float",
-            "optional": true
-          },
-          "prefer_css_page_size": {
-            "type": "boolean",
-            "optional": true
-          }
-        }
+        "sdkMethodName": "create"
       },
       {
         "path": "render",
         "httpMethod": "GET",
-        "sdkMethodName": "list",
-        "request": {
-          "pageSize":  {
-            "type": "number"
-          },
-          "page": {
-            "type": "number"
-          },
-          "sort": {
-            "type": ["-created_at", "created_at"],
-            "optional": true
-          },
-          "search": {
-            "type": "string",
-            "optional": true
-          },
-          "dataId": {
-            "type": "string"
-          }
-        }
+        "sdkMethodName": "list"
       },
       {
         "path": "render/{id}",
         "httpMethod": "GET",
-        "sdkMethodName": "get",
-        "request": {
-          "entityId": {
-            "type": "string"
-          }
-        },
-        "response": {
-          "id": {
-            "type": "string"
-          },
-          "folder_id": {
-            "type": ["string", null]
-          },
-          "name":{
-            "type": "string"
-          },
-          "description":{
-            "type": "string"
-          },
-          "status":{
-            "type": "string"
-          },
-          "pdf_url":              {
-            "type": "string"
-          },
-          "html_url":             {
-            "type": "string"
-          },
-          "width":                {
-            "type": ["float", null]
-          },
-          "height":              {
-            "type": ["float", null]
-          },
-          "unit":                 {
-            "type": ["string", null]
-          },
-          "merge_parameters":     {
-            "type": ["array", null]
-          },
-          "metadata":             {
-            "type": "array"
-          },
-          "expire_after_n_views": {
-            "type": ["number", null]
-          },
-          "expire_at":           {
-            "type": ["string", null]
-          },
-          "updated_at":           {
-            "type": "string"
-          },
-          "created_at":           {
-            "type": "string"
-          },
-          "created_by":
-          {
-            "type": [{
-              "id": "number",
-              "name": ["string", null],
-              "first_name": ["string", null],
-              "last_name": ["string", null]
-            }, null]
-          }
-        }
-      },
-      {
-        "path": "render/{id}",
-        "httpMethod": "DELETE",
-        "sdkMethodName": "delete",
-        "request": {
-          "entityId": {
-            "type": "string"
-          }
-        },
-        "queryParams": {
-          "ids": {
-            "type": "string"
-          },
-          "archive": {
-            "type": "boolean"
-          }
-        },
-        "response":  {
-          "id": {
-            "type": "string"
-          },
-          "folder_id": {
-            "type": ["string", null]
-          },
-          "name": {
-            "type": "string"
-          },
-          "description": {
-            "type": "string"
-          },
-          "status": {
-            "type": "string"
-          },
-          "pdf_url": {
-            "type": "string"
-          },
-          "html_url": {
-            "type": "string"
-          },
-          "width": {
-            "type": ["float", null]
-          },
-          "height": {
-            "type": ["float", null]
-          },
-          "unit": {
-            "type": ["string", null]
-          },
-          "merge_parameters": {
-            "type": ["array", null]
-          },
-          "metadata": {
-            "type": "array"
-          },
-          "expire_after_n_views": {
-            "type": ["number", null]
-          },
-          "expire_at": {
-            "type": ["string", null]
-          },
-          "updated_at": {
-            "type": "string"
-          },
-          "created_at": {
-            "type": "string"
-          }
-        }
+        "sdkMethodName": "get"
       },
       {
         "path": "render/{id}/pdf",
         "httpMethod": "GET",
-        "sdkMethodName": "getPdf",
-        "request": {
-          "entityId": {
-            "type": "string"
-          }
-        },
-        "response": {
-          "data": {
-            "type": "string"
-          }
-        }
+        "sdkMethodName": "getPdf"
+      }
+    ]
+  },
+  "folder": {
+    "routes": [
+      {
+        "path": "folder",
+        "httpMethod": "GET",
+        "sdkMethodName": "list"
+      }
+    ]
+  },
+  "template": {
+    "routes": [
+      {
+        "path": "template",
+        "httpMethod": "POST",
+        "sdkMethodName": "create"
       },
       {
-        "path": "render/{id}/html",
+        "path": "template",
         "httpMethod": "GET",
-        "sdkMethodName": "getHtml",
-        "request": {
-          "entityId": {
-            "type": "string"
-          }
-        }
+        "sdkMethodName": "list"
       },
       {
-        "path": "render/{id}/docx",
+        "path": "template/{id}",
         "httpMethod": "GET",
-        "sdkMethodName": "getDocx",
-        "request": {
-          "entityId": {
-            "type": "string"
-          }
-        }
+        "sdkMethodName": "get"
+      }
+    ]
+  },
+  "batch": {
+    "routes": [
+      {
+        "path": "batch",
+        "httpMethod": "POST",
+        "sdkMethodName": "create"
+      },
+      {
+        "path": "batch",
+        "httpMethod": "GET",
+        "sdkMethodName": "list"
+      },
+      {
+        "path": "batch/{id}",
+        "httpMethod": "GET",
+        "sdkMethodName": "get"
+      }
+    ]
+  },
+  "document": {
+    "routes": [
+      {
+        "path": "document",
+        "httpMethod": "GET",
+        "sdkMethodName": "list"
+      },
+      {
+        "path": "document/{id}",
+        "httpMethod": "GET",
+        "sdkMethodName": "get"
+      },
+      {
+        "path": "document/{id}",
+        "httpMethod": "DELETE",
+        "sdkMethodName": "delete"
+      },
+      {
+        "path": "download/{id}",
+        "httpMethod": "GET",
+        "sdkMethodName": "download"
       }
     ]
   }
