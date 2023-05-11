@@ -151,6 +151,4 @@ const Inkit = {
   },
 } as InkitType;
 
-module.exports = {
-  Inkit,
-};
+module.exports = Inkit;
