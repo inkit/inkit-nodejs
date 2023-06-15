@@ -1,6 +1,7 @@
 # Inkit Node SDK
 
 ## Installation
+In your terminal run the following:
 ```cmd
 npm install inkit
 ```
