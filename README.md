@@ -1,5 +1,10 @@
 # Inkit Node SDK
 
+## Installation
+```cmd
+npm install inkit
+```
+
 ## Usage
 
 ```js
