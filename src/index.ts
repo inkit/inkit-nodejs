@@ -72,6 +72,7 @@ const buildRequest = (path: string, method: MethodsType, data: any = {}) => {
       }, {}),
     };
   }
+
   if (RegExp("docx|pdf|html").test(path)) {
     requestData = {
       "axios-retry": {
@@ -84,6 +85,7 @@ const buildRequest = (path: string, method: MethodsType, data: any = {}) => {
       data,
     };
   }
+
   if (["POST", "PATCH"].includes(method) && data.html) {
     requestData = {
       data: {

@@ -16,7 +16,7 @@ export const b64EncodeUnicode = (str: string) => {
 export const convertCaseKebabCamel = (
   obj: any,
   baseFrom: "snake" | "camel" = "camel",
-  flat: boolean = false
+  exceptions: string[] = ["mergeParameters"]
 ) => {
   const keys = Object.keys(obj);
   const returnObj = {} as { [key: string]: any };
@@ -24,7 +24,13 @@ export const convertCaseKebabCamel = (
 
   for (const key of keys) {
     const propValue = obj[key];
-    if (propValue && typeof propValue === "object" && !flat) {
+
+    if (exceptions.includes(key)) {
+      returnObj[stringConvertFunction(key)] = propValue;
+      continue;
+    }
+
+    if (propValue && typeof propValue === "object") {
       if (Array.isArray(propValue)) {
         const returnArr = [];
 
