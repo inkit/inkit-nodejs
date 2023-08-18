@@ -86,11 +86,11 @@ const buildRequest = (path: string, method: MethodsType, data: any = {}) => {
     };
   }
 
-  if (["POST", "PATCH"].includes(method) && data.html) {
+  if (["POST", "PATCH"].includes(method) && data.file) {
     requestData = {
       data: {
         ...data,
-        html: b64EncodeUnicode(data.html),
+        file: b64EncodeUnicode(data.file),
       },
     };
   }
