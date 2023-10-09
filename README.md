@@ -11,7 +11,7 @@ npm install inkit
 ```js
 const Inkit = require("inkit");
 
-Inkit.apiToken = "xxxxxxxxx";
+Inkit.apiToken = "ENTER YOUR API KEY";
 
 // Get list of Folders
 await Inkit.Folder.list({
@@ -67,6 +67,7 @@ await Inkit.Render.create({
     },
     salesforce: {
       record_id: "Your salesforce LinkedEntityId",
+      salesforce_type: "link",
       file_name: "My awesome PDF",
       description: "Salesforce PDF description",
     },
@@ -104,6 +105,7 @@ await Inkit.Batch.create({
         },
         salesforce: {
           record_id: "Your salesforce LinkedEntityId",
+          salesforce_type: "link",
           file_name: "My first awesome PDF",
           description: "Salesforce first PDF description",
         },
@@ -120,6 +122,7 @@ await Inkit.Batch.create({
         },
         salesforce: {
           record_id: "Your salesforce LinkedEntityId",
+          salesforce_type: "link",
           file_name: "My second awesome PDF",
           description: "Salesforce second PDF description",
         },
