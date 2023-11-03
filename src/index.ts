@@ -95,6 +95,12 @@ const buildRequest = (path: string, method: MethodsType, data: any = {}) => {
     };
   }
 
+  if (path.includes("download")) {
+    requestData = {
+      responseType: "arraybuffer",
+    };
+  }
+
   return requestData;
 };
 
